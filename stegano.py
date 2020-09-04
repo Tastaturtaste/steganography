@@ -69,7 +69,7 @@ def encode_header(bimg,length,content_type,file_ending=None):
     types = {'string':'s','file':'f'} # s -> string | f -> file
     content_offsets = {'string': 16, 'file':24}
     bimg = encode_bytes(bimg,length.to_bytes(8,'big'),0)
-    encoded_type = '-'*(8-len(types[content_type])) + types[content_type]
+    encoded_type = padstring(types[content_type],'-')
     bimg = encode_string(bimg,encoded_type,offset_type)
     if content_type == 'file':
         bimg = encode_string(bimg,padstring(file_ending,'-'),offset_fileending)
@@ -82,7 +82,7 @@ def decode_header(bimg):
     types = {'s':'string','f':'file'} # s -> string | f -> file
     content_offsets = {'string': 16, 'file':24}
     length = int.from_bytes(decode_bytes(bimg,8,offset_l),'big')
-    content_type = decode_bytes(bimg,8,offset_type).decode('utf-8')
+    content_type = decode_string(bimg,8,offset_type)
     content_type = content_type.split('-')[-1]
     content_type = types[content_type]
     content_offset = content_offsets[content_type]
@@ -100,6 +100,33 @@ def img_to_bin(img):
 def bin_to_img(bimg,shape):
     return np.frombuffer(bimg,dtype=np.dtype('uint8')).reshape(shape)
 
+def encode(bimg,string=None,filename=None):
+    if string:
+            bimg, offset = encode_header(bimg,len(string),'string')
+            bimg = encode_string(bimg,args.text,offset)
+    elif filename:
+        file_ending = args.file.split('.')[-1]
+        with open(filename,'rb') as f:
+            bytes_in_file = f.read()
+        bimg, offset = encode_header(bimg,len(bytes_in_file),'file',file_ending)
+        bimg = encode_bytes(bimg,bytes_in_file,offset)
+    return bimg
+
+def decode(bimg):
+    header = decode_header(bimg)
+    if header['content_type'] == 'string':
+        string_out = decode_string(bimg,header['length'],header['content_offset'])
+        print(string_out)
+        return string_out
+    elif header['content_type'] == 'file':
+        bytes_to_file = decode_bytes(bimg,header['length'],header['content_offset'])
+        filename = input(f"Secret Message is {header['file_ending']}-file. \nIf you would like to save the file, enter non-empty filename without extension: ")
+        if filename:
+            with open(filename + '.' + header['file_ending'],'wb') as f:
+                f.write(bytes_to_file)
+        return bytes_to_file
+
+
 if __name__ == "__main__":
     parser = ap.ArgumentParser()
     parser.add_argument("pic_path")
@@ -109,30 +136,16 @@ if __name__ == "__main__":
 
     img = cv2.imread(args.pic_path)
     bimg = img_to_bin(img)
-    encode = args.text or args.file
-    if encode:
-        if args.text:
-            bimg, offset = encode_header(bimg,len(args.text),'string')
-            bimg = encode_string(bimg,args.text,offset)
-        elif args.file:
-            file_ending = args.file.split('.')[-1]
-            with open(args.file,'rb') as f:
-                bytes_in_file = f.read()
-            bimg, offset = encode_header(bimg,len(bytes_in_file),'file',file_ending)
-            bimg = encode_bytes(bimg,bytes_in_file,offset)
+    encode_mode = args.text or args.file
+    if encode_mode:
+        if(args.text):
+            encode(bimg,string=args.text)
+        elif(args.file):
+            encode(bimg,filename=args.file)
     else:
-        header = decode_header(bimg)
-        if header['content_type'] == 'string':
-            string_out = decode_string(bimg,header['length'],header['content_offset'])
-            print(string_out)
-        elif header['content_type'] == 'file':
-            filename = input(f"Secret Message is {header['file_ending']}-file. \nIf you would like to save the file, enter non-empty filename without extension: ")
-            if filename:
-                bytes_to_file = decode_bytes(bimg,header['length'],header['content_offset'])
-                with open(filename + '.' + header['file_ending'],'wb') as f:
-                    f.write(bytes_to_file)            
+        decode(bimg)
 
-    if encode:
+    if encode_mode:
         img_out = bin_to_img(bimg,img.shape)
         pic_ending = args.pic_path.split('.')[-1]
         cv2.imwrite(args.pic_path[:-(len(pic_ending) + 1)] + f"_encoded.{pic_ending}",img_out)
