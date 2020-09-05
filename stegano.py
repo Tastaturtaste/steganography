@@ -102,8 +102,8 @@ def bin_to_img(bimg,shape):
 
 def encode(bimg,string=None,filename=None):
     if string:
-            bimg, offset = encode_header(bimg,len(string),'string')
-            bimg = encode_string(bimg,args.text,offset)
+        bimg, offset = encode_header(bimg,len(string),'string')
+        bimg = encode_string(bimg,args.text,offset)
     elif filename:
         file_ending = args.file.split('.')[-1]
         with open(filename,'rb') as f:
@@ -114,17 +114,20 @@ def encode(bimg,string=None,filename=None):
 
 def decode(bimg):
     header = decode_header(bimg)
+    out = {'header':header}
     if header['content_type'] == 'string':
         string_out = decode_string(bimg,header['length'],header['content_offset'])
         print(string_out)
-        return string_out
+        out['string'] = string_out
+        return out
     elif header['content_type'] == 'file':
         bytes_to_file = decode_bytes(bimg,header['length'],header['content_offset'])
         filename = input(f"Secret Message is {header['file_ending']}-file. \nIf you would like to save the file, enter non-empty filename without extension: ")
+        out['bytes'] = bytes_to_file
         if filename:
             with open(filename + '.' + header['file_ending'],'wb') as f:
                 f.write(bytes_to_file)
-        return bytes_to_file
+        return out
 
 
 if __name__ == "__main__":
