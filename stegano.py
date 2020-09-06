@@ -11,8 +11,8 @@ def setbit(byte,n):
 def clearbit(byte,n):
     return byte&~(2**n)
 
-def padstring(s,char):
-    return char * (8*(len(s)//8 + 1) - (len(s)%8)) + s
+def padstring(s,c):
+    return c * (8*(len(s)//8 + 1) - (len(s)%8)) + s
     
 def encode_bytes(bdest,bsrc,offset):
     for byte in range(len(bsrc)):
