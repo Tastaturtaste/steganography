@@ -1,1 +1,0 @@
-cl.exe /nologo /Ox /MD /W3 /GS- /DNDEBUG /IC:/Python/Python37/include /IC:/Python/Python37 stegano.c /link /OUT:stegano.exe /SUBSYSTEM:CONSOLE /MACHINE:X64 /LIBPATH:C:/Python/Python37/libs /LIBPATH:C:/Python/Python37
