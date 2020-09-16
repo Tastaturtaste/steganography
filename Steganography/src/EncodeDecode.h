@@ -21,25 +21,40 @@ namespace Header {
 	*/
 	enum class Type : unsigned char {
 		Text = 0,
-		File = 1
+		File = 1,
+		Invalid
 	};
-	enum Size : unsigned char {
+	enum class Size : unsigned char {
 		Text = 9,
 		File = 17,
 		Min = Text,
 		Max = File
 	};
-	enum Offset : unsigned char {
+
+	enum class Offset : unsigned char {
 		ContentType = 0,
 		PayloadLength = 1,
 		FileEnding = 9
 	};
+
+	constexpr inline std::underlying_type_t<Size> get(Size size) noexcept { return static_cast<std::underlying_type_t<Size>>(size); }
+	constexpr inline std::underlying_type_t<Offset> get(Offset offset) noexcept { return static_cast<std::underlying_type_t<Offset>>(offset); }
+
+	template<class T>
+	requires requires (T t) { static_cast<Size>(t); }
+	constexpr T header_size(const Type type) {
+		switch (type) {
+		case Type::Text: return static_cast<T>(Size::Text);
+		case Type::File: return static_cast<T>(Size::File);
+		}
+		return std::numeric_limits<T>::max();
+	}
 	constexpr Size header_size(const Type type) {
 		switch (type) {
 		case Type::Text: return Size::Text;
 		case Type::File: return Size::File;
 		}
-		/*throw std::runtime_error(fmt::format("header_size of given type not found. Error in File {} on line {}", __FILE__, __LINE__ ));*/
+		return std::numeric_limits<Size>::max();
 	}
 
 	struct Info {
@@ -48,6 +63,9 @@ namespace Header {
 		uint64_t size;
 		std::optional<std::string> fileEnding;
 	};
+	//constexpr inline void* operator+(void* ptr, Offset offset) noexcept { return ptr + offset; }
+	//template<class T>
+	//auto operator*(Size size, T t) { return size * t; };
 };
 
 std::span<uchar_t> encode_bytes(std::span<uchar_t> dest, std::span<const uchar_t> src);

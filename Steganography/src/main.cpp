@@ -58,12 +58,12 @@ public:
 			throw std::runtime_error(lodepng_error_text(errorcode));
 		}
 		else {
-			width = static_cast<size_t>(w);
-			height = static_cast<size_t>(h);
+			width = w;
+			height = h;
 		}
 	}
 	void save_to_disk(std::string_view filename) const {
-		auto errorcode = lodepng::encode(filename.data(), pixels, width, height);
+		auto errorcode = lodepng::encode(filename.data(), pixels, static_cast<unsigned int>(width), static_cast<unsigned int>(height));
 		if (errorcode) {
 			throw std::runtime_error(lodepng_error_text(errorcode));
 		}
@@ -95,7 +95,7 @@ public:
 		std::ifstream input(filename.data(), std::ios::binary);
 		std::vector<uchar_t> buffer(std::istreambuf_iterator<char>(input), {});
 		//buffer.reserve(fileSize);
-		auto pointIndex = filename.find_last_of(".");
+		auto const pointIndex = filename.find_last_of(".");
 		Info info{ .type = Type::File, .size = buffer.size(), .fileEnding = std::string(filename.substr(pointIndex)) };
 		auto view = encode_header({ pixels.begin(),pixels.end() }, info);
 		view = encode_bytes(view, { buffer.begin(),buffer.end() });
@@ -105,7 +105,7 @@ public:
 		using namespace Header;
 		auto info = decode_header({ pixels.begin(),pixels.end() });
 		std::vector<uchar_t> buffer(info.size);
-		decode_bytes({ buffer.begin(),buffer.end() }, { pixels.begin() + 8 * header_size(info.type), 8 * info.size });
+		decode_bytes({ buffer.begin(),buffer.end() }, { pixels.begin() + 8 * header_size<size_t>(info.type), info.size * 8 });
 		switch (info.type) {
 		case Type::Text:
 		{
@@ -116,10 +116,12 @@ public:
 		case Type::File:
 			return { .info = info, .var = buffer };
 		}
+		throw std::logic_error(fmt::format("This part should never be reached. Function: {}, Line: {}", __FUNCTION__, __LINE__));
+		return {};
 	}
 };
 
-int main(int argc, char* argv[]) {
+int main(int argc, const char* argv[]) {
 
 	argparse::ArgumentParser program("Stegano");
 	program.add_argument("pngpic")
@@ -173,7 +175,8 @@ int main(int argc, char* argv[]) {
 			else if(file) {
 				rawPixels.encode_file(file.value());
 			}
-			auto pointIndex = pngpicname.find_last_of('.');
+			spdlog::info("Encoded {} in given picture. Saving...", (text ? text.value() : file.value()));
+			auto const pointIndex = pngpicname.find_last_of('.');
 			auto newPngPicName = fmt::format("{}_encoded{}", pngpicname.substr(0, pointIndex), pngpicname.substr(pointIndex, pngpicname.size() - pointIndex));
 			rawPixels.save_to_disk(newPngPicName);
 			spdlog::info("Saved picture with encoded data to {}.", newPngPicName);
@@ -202,8 +205,9 @@ int main(int argc, char* argv[]) {
 			}
 		}
 
-	}catch (std::exception& e) {
+	}catch (const std::exception& e) {
 		spdlog::error("An Exception occured while loading or processing {}. \nException Message: {}", pngpicname, e.what());
+		std::terminate();
 	}
 	return 0;
 }
