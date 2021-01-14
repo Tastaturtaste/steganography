@@ -2,7 +2,5 @@
 **/*.png
 **/.vscode/
 **/*test.*
-**/temp/*
-**/out/*
-**/*.user
-**/.vs/
+**/.vs
+**/__*
