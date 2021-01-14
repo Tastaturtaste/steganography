@@ -77,7 +77,7 @@ std::span<uchar_t> encode_header(std::span<uchar_t> bytes, Header::Info info) {
 
 Header::Info decode_header(std::span<const uchar_t> bytes) {
 	using namespace Header;
-	assert(bytes.size() * 8 >= Size::Min);
+	assert(bytes.size() * 8 >= static_cast<size_t>(Size::Min));
 	std::array<uchar_t, get(Size::Max)> headerBytes;
 	decode_bytes({ headerBytes.begin(),headerBytes.end() }, bytes.subspan(0, headerBytes.size() * 8));
 	Info info{};

@@ -175,7 +175,8 @@ int main(int argc, const char* argv[]) {
 			else if(file) {
 				rawPixels.encode_file(file.value());
 			}
-			spdlog::info("Encoded {} in given picture. Saving...", (text ? text.value() : file.value()));
+			spdlog::info("Encoded {} in given picture.", (text ? text.value() : file.value()));
+			spdlog::info("Saving...");
 			auto const pointIndex = pngpicname.find_last_of('.');
 			auto newPngPicName = fmt::format("{}_encoded{}", pngpicname.substr(0, pointIndex), pngpicname.substr(pointIndex, pngpicname.size() - pointIndex));
 			rawPixels.save_to_disk(newPngPicName);

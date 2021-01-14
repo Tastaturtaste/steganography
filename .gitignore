@@ -1,6 +1,9 @@
-**/venv/*
 **/*.png
 **/.vscode/
-**/*test.*
 **/.vs
 **/__*
+**/temp/
+**/*.ilk
+**/*.iobj
+**/*.pdb
+**/*.ipdb
