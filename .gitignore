@@ -1,6 +1,11 @@
 **/venv/*
 **/*.png
 **/.vscode/
-**/*test.*
 **/.vs
 **/__*
+**/*.vcxproj.user
+**/temp/
+**/*.ilk
+**/*.iobj
+**/*.pdb
+**/*.ipdb
