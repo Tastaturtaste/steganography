@@ -1,5 +1,3 @@
-#define __cpp_lib_bitops
-
 #include"EncodeDecode.h"
 #include<cassert>
 #include<array>
@@ -7,7 +5,6 @@
 #include<algorithm>
 #include<spdlog\spdlog.h>
 #include<bit>
-#include<thread>
 #include<gsl\gsl-lite.hpp>
 
 #ifndef __cpp_lib_bitops

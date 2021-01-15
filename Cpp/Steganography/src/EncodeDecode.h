@@ -3,8 +3,6 @@
 #include<cstdint>
 #include<optional>
 #include<string>
-#include<fmt\core.h>
-#include<exception>
 
 using uchar_t = unsigned char;
 
@@ -63,9 +61,6 @@ namespace Header {
 		uint64_t size;
 		std::optional<std::string> fileEnding;
 	};
-	//constexpr inline void* operator+(void* ptr, Offset offset) noexcept { return ptr + offset; }
-	//template<class T>
-	//auto operator*(Size size, T t) { return size * t; };
 };
 
 std::span<uchar_t> encode_bytes(std::span<uchar_t> dest, std::span<const uchar_t> src);

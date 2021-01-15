@@ -1,10 +1,7 @@
-#define __cpp_lib_bitops
-
 #include<lodepng.h>
 #include<argparse\argparse.hpp>
 #include<string_view>
 #include<exception>
-#include<cstdio>
 #include<vector>
 #include<string>
 #include<spdlog\spdlog.h>
