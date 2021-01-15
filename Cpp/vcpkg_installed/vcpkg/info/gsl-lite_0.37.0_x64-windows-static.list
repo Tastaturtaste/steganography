@@ -1,0 +1,14 @@
+x64-windows-static/
+x64-windows-static/include/
+x64-windows-static/include/gsl-lite.hpp
+x64-windows-static/include/gsl-lite/
+x64-windows-static/include/gsl-lite/gsl-lite.hpp
+x64-windows-static/include/gsl/
+x64-windows-static/include/gsl/gsl-lite.hpp
+x64-windows-static/share/
+x64-windows-static/share/gsl-lite/
+x64-windows-static/share/gsl-lite/copyright
+x64-windows-static/share/gsl-lite/gsl-lite-config-version.cmake
+x64-windows-static/share/gsl-lite/gsl-lite-config.cmake
+x64-windows-static/share/gsl-lite/gsl-lite-targets.cmake
+x64-windows-static/share/gsl-lite/vcpkg_abi_info.txt

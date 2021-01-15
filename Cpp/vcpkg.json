@@ -1,0 +1,10 @@
+{
+    "name": "steganography",
+    "version-string": "0.1.0",
+    "dependencies": [
+        "gsl-lite",
+        "argparse",
+        "lodepng",
+        "spdlog"
+    ]
+}

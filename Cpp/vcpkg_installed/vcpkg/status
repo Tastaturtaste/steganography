@@ -1,0 +1,47 @@
+Package: argparse
+Version: 2.1
+Architecture: x64-windows-static
+Multi-Arch: same
+Abi: 79a9bef10968dcdc273df11273877daac1c0a8f0
+Description: Argument parser for modern C++
+Type: Port
+Status: install ok installed
+
+Package: fmt
+Version: 7.0.3
+Port-Version: 2
+Architecture: x64-windows-static
+Multi-Arch: same
+Abi: 2c345dc2d04b63a9858d97958f51ed61ff2f94d7
+Description: Formatting library for C++. It can be used as a safe alternative to printf or as a fast alternative to IOStreams.
+Type: Port
+Status: install ok installed
+
+Package: gsl-lite
+Version: 0.37.0
+Architecture: x64-windows-static
+Multi-Arch: same
+Abi: 525a73b1f5c68b1f0935832e0d6856f40804d139
+Description: A single-file header-only implementation of ISO C++ Guidelines Support Library (GSL) for C++98, C++11 and later.
+Type: Port
+Status: install ok installed
+
+Package: lodepng
+Version: 2020-03-15
+Architecture: x64-windows-static
+Multi-Arch: same
+Abi: 27d4574210ca9a9d0237d786afb4441f53a4e762
+Description: PNG encoder and decoder in C and C++
+Type: Port
+Status: install ok installed
+
+Package: spdlog
+Version: 1.7.0
+Depends: fmt
+Architecture: x64-windows-static
+Multi-Arch: same
+Abi: 51d2af1957a46fb90908f013bbedbb0b9e8c94c6
+Description: Very fast, header only, C++ logging library
+Type: Port
+Status: install ok installed
+
