@@ -3,6 +3,7 @@
 **/.vscode/
 **/.vs
 **/__*
+**/*.vcxproj.user
 **/temp/
 **/*.ilk
 **/*.iobj
