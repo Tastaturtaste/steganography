@@ -72,26 +72,26 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(ProjectDir)out\$(Configuration)\</OutDir>
+    <OutDir>$(ProjectDir)bin\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)temp\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)$(Platform)_d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(ProjectDir)out\$(Configuration)\</OutDir>
+    <OutDir>$(ProjectDir)bin\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)temp\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)$(Platform)</TargetName>
     <CodeAnalysisRuleSet>..\..\Templates\CodeAnalysis\MicrosoftNative_CoreCpp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(ProjectDir)out\$(Configuration)\</OutDir>
+    <OutDir>$(ProjectDir)bin\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)temp\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)$(Platform)_d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(ProjectDir)out\$(Configuration)\</OutDir>
+    <OutDir>$(ProjectDir)bin\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)temp\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)$(Platform)</TargetName>
     <CodeAnalysisRuleSet>..\..\Templates\CodeAnalysis\MicrosoftNative_CoreCpp.ruleset</CodeAnalysisRuleSet>

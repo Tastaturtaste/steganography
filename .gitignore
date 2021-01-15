@@ -5,7 +5,4 @@
 **/__*
 **/*.vcxproj.user
 **/temp/
-**/*.ilk
-**/*.iobj
-**/*.pdb
-**/*.ipdb
+**/bin/
